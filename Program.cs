@@ -221,7 +221,7 @@ void Cardapio()
                 case 2:
                     Console.WriteLine("Escolha o Preço:");
                     double preco = double.Parse(Console.ReadLine());
-                     IndiceCardapio = cardapio.IndexOf(ItemSelecionado);
+                    IndiceCardapio = cardapio.IndexOf(ItemSelecionado);
                     cardapio[IndiceCardapio].Set_Preco(preco);
                     break;
             }
@@ -239,8 +239,14 @@ void Cardapio()
 
         switch (respo)
         {
-            //case 1:
-
+            case 1:
+                int IndiceCardapio = cardapio.IndexOf(ItemSelecionado);
+                cardapio[IndiceCardapio].Set_DisponivelTrue();
+                break;
+            case 2:
+                IndiceCardapio = cardapio.IndexOf(ItemSelecionado);
+                cardapio[IndiceCardapio].Set_DisponivelFalse();
+                break;
         }
 
     }

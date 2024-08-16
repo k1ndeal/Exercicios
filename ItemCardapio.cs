@@ -25,13 +25,17 @@ namespace DesafioPOO {
             Preco = preco;
 
         }
-            public void Set_Disponivel(bool dispo)
+            public void Set_DisponivelTrue()
         {
-            Disponivel = dispo;
+            Disponivel = true;
 
         }
 
+        public void Set_DisponivelFalse()
+        {
+            Disponivel = false;
 
+        }
 
         public override string ToString() {
             return $"{Nome}, {Preco.ToString("c")}";
