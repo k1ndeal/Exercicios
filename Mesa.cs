@@ -12,8 +12,8 @@ namespace DesafioPOO {
         public int NumeroMesa { get; private set; }
         public bool status = true;
         public double TotalDaMesa {  get; set; }
-        List<ItemCardapio> pedido = new List<ItemCardapio>();
-        Pedido PedidoDaMesa = new Pedido();
+        /*List<ItemCardapio> pedido = new List<ItemCardapio>();
+        Pedido PedidoDaMesa = new Pedido();*/
 
         public Mesa(int Numero ) {
             NumeroMesa = Numero;
@@ -24,7 +24,7 @@ namespace DesafioPOO {
             NumeroMesa = resposta;
         }
 
-        public void FazerPedido() {
+        /*public void FazerPedido() {
             
             string res;
             do {
@@ -45,7 +45,7 @@ namespace DesafioPOO {
             }
             Console.WriteLine($"O total ficou {TotalDaMesa}");
 
-        }
+        }*/
 
 
 

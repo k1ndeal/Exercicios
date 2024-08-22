@@ -1,47 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DesafioPOO {
-    internal class Pedido {
-        public int NumeroMesa { get; set; }
-        public List<ItemCardapio> itens { get; set; } = new List<ItemCardapio>() {
-         new ("frango",2500.00),
-         new ("carne",4000.00),
-         new ("dooce",500.00),
-         new ("beringela",1200.00),
-
-
-        };
-
-        
-        
-
-
+namespace DesafioPOO
+{
+    internal class Pedido
+    {
+        public Mesa NumeroMesa { get; set; }
+        public List<ItemCardapio> Cardapio { get; set; } = new List<ItemCardapio>();
         public double Total { get; set; }
 
+        public Pedido(Mesa numeroMesa)
+        {
+            NumeroMesa = numeroMesa;
+        }
 
-        public void CriarPedido() {
-            Console.WriteLine("faca um pedido");
-            Console.WriteLine("itens do cardapio:");
-            int i = 1;
-            foreach (var item in itens) {
 
-                Console.WriteLine($"({i}){item.ToString()}");
-                i++;
 
+        public Pedido() { }
+
+        public void AddPedido(ItemCardapio item)
+        {
+            Cardapio.Add(item);
+        }
+
+        public void RemovePedido(ItemCardapio item)
+        {
+            Cardapio.Remove(item);
+        }
+
+        public void MostrarPediso()
+        {
+            foreach (ItemCardapio item in Cardapio)
+            {
+                Console.WriteLine(item);
             }
         }
 
-        public ItemCardapio Add(int escolha) {
-            return itens[escolha];
+        public void CalculoTotal()
+        {
+            foreach (ItemCardapio item in Cardapio)
+            {
+                Total += item.Preco;
+            }
+        }
 
-        }
-        public double Get_Preco(int i) {
-            return itens[i].Preco;
-        }
+
+
+
+
     }
 }

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.Globalization;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 
 List<Mesa> mesas = new List<Mesa>() {
  new Mesa(1),
@@ -123,7 +124,7 @@ void mesa()
 }//completo
 void Cardapio()
 {
-    ItemCardapio verification(string nome)
+    string verification(string nome)
     {
         while (true)
         {
@@ -131,10 +132,12 @@ void Cardapio()
             if (ItemSelecionado == null)
             {
                 Console.WriteLine($"O {ItemSelecionado} n Existe! Escolha outro");
+                nome = Console.ReadLine();
             }
             else
             {
-                return ItemSelecionado;
+                return nome;
+                
                 break;
             }
         }
@@ -173,7 +176,8 @@ void Cardapio()
 
             string nome = Console.ReadLine();
             verification(nome);
-            ItemCardapio ItemSelecionado = verification(nome);
+            ItemCardapio ItemSelecionado = cardapio.Where(i => i.Nome == nome).FirstOrDefault();
+            
             {
                 Console.WriteLine($"{ItemSelecionado} Selecionado! Remover(1) ou Escolher outro(2)?");
                 int i = int.Parse(Console.ReadLine());
@@ -201,7 +205,8 @@ void Cardapio()
             string nome = Console.ReadLine();
 
             verification(nome);
-            ItemCardapio ItemSelecionado = verification(nome);
+            ItemCardapio ItemSelecionado = cardapio.Where(i => i.Nome == nome).FirstOrDefault();
+            
 
             Console.WriteLine($"{ItemSelecionado} Selecionado! Oque gostaria de modificar? Nome(1) ou Preco(2)");
             int escolha = int.Parse(Console.ReadLine());
@@ -276,6 +281,48 @@ void Cardapio()
 
 
     }
+}//completo
+void Pedido()
+{
+    string Verification(string nome)
+    {
+        while (true)
+        {
+            ItemCardapio ItemSelecionado = cardapio.Where(i => i.Nome == nome).FirstOrDefault();
+            if (ItemSelecionado == null)
+            {
+                Console.WriteLine($"O {ItemSelecionado} n Existe! Escolha outro");
+                nome = Console.ReadLine();
+            }
+            else
+            {
+                return nome;
+
+                break;
+            }
+        }
+    }//funcionando
+    foreach (Mesa mesa in mesas)
+    {
+        Console.WriteLine(mesa);
+    }
+    Console.WriteLine("Escolha uma mesa: ");
+    int escolha = int.Parse(Console.ReadLine());
+    Mesa Mesaselecionada = mesas.Where(i => i.NumeroMesa == escolha).FirstOrDefault();
+    if (Mesaselecionada.status)
+    {
+        Console.WriteLine("Escolha um item do cardapio:");
+        foreach (ItemCardapio item in cardapio)
+        {
+            Console.WriteLine(item);
+        }
+        string Escolha = Console.ReadLine();
+        Verification(Escolha);
+    }
+
+
+
+
 }
 
 while (true)
@@ -298,6 +345,7 @@ while (true)
 
             break;
         case 3:
+            Pedido();
             break;
         case 4:
             break;
