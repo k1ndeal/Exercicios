@@ -33,7 +33,7 @@ namespace DesafioPOO
             Cardapio.Remove(item);
         }
 
-        public void MostrarPediso()
+        public void MostrarPedido()
         {
             foreach (ItemCardapio item in Cardapio)
             {

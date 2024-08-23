@@ -4,10 +4,11 @@ using System.Diagnostics.Tracing;
 using System.Globalization;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 List<Mesa> mesas = new List<Mesa>() {
  new Mesa(1),
- new Mesa(2),
+ new Mesa(2,true),
  new Mesa(3),
  new Mesa(4),
 
@@ -137,7 +138,7 @@ void Cardapio()
             else
             {
                 return nome;
-                
+
                 break;
             }
         }
@@ -177,7 +178,7 @@ void Cardapio()
             string nome = Console.ReadLine();
             verification(nome);
             ItemCardapio ItemSelecionado = cardapio.Where(i => i.Nome == nome).FirstOrDefault();
-            
+
             {
                 Console.WriteLine($"{ItemSelecionado} Selecionado! Remover(1) ou Escolher outro(2)?");
                 int i = int.Parse(Console.ReadLine());
@@ -206,7 +207,7 @@ void Cardapio()
 
             verification(nome);
             ItemCardapio ItemSelecionado = cardapio.Where(i => i.Nome == nome).FirstOrDefault();
-            
+
 
             Console.WriteLine($"{ItemSelecionado} Selecionado! Oque gostaria de modificar? Nome(1) ou Preco(2)");
             int escolha = int.Parse(Console.ReadLine());
@@ -284,6 +285,7 @@ void Cardapio()
 }//completo
 void Pedido()
 {
+    
     string Verification(string nome)
     {
         while (true)
@@ -302,31 +304,108 @@ void Pedido()
             }
         }
     }//funcionando
-    foreach (Mesa mesa in mesas)
+
+    if (mesas.All(i => !i.Status))
     {
-        Console.WriteLine(mesa);
+        Console.WriteLine("Todas as mesas estao ocupadas! espere fehcar o pedido!");
+        Console.ReadLine();
     }
-    Console.WriteLine("Escolha uma mesa: ");
-    int escolha = int.Parse(Console.ReadLine());
-    Mesa Mesaselecionada = mesas.Where(i => i.NumeroMesa == escolha).FirstOrDefault();
-    if (Mesaselecionada.status)
-    {
-        Console.WriteLine("Escolha um item do cardapio:");
-        foreach (ItemCardapio item in cardapio)
+    else
+    {    foreach (Mesa mesa in mesas)
         {
-            Console.WriteLine(item);
+            if (mesa.Status)
+            {
+                Console.WriteLine(mesa);
+            }
         }
-        string Escolha = Console.ReadLine();
-        Verification(Escolha);
+        Console.WriteLine("Escolha uma mesa: ");
+        int escolha = int.Parse(Console.ReadLine());
+
+        Mesa Mesaselecionada = mesas.Where(i => i.NumeroMesa == escolha).FirstOrDefault();
+        if (Mesaselecionada.Status)
+        {
+
+            while (true)
+            {
+                Console.WriteLine("Escolha um item do cardapio:");
+                foreach (ItemCardapio item in cardapio)
+                {
+                    Console.WriteLine(item);
+                }
+
+                string Escolha = Console.ReadLine();
+                while (true)
+                {
+                    ItemCardapio ItemSelecionad = cardapio.Where(i => i.Nome == Escolha).FirstOrDefault();
+                    if (ItemSelecionad == null)
+                    {
+                        Console.WriteLine($"O {ItemSelecionad} n Existe! Escolha outro");
+                        Escolha = Console.ReadLine();
+                    }
+                    else
+                    {
+
+
+                        break;
+                    }
+                }
+
+                //Verification(Escolha);
+                ItemCardapio ItemSelecionado = cardapio.Where(i => i.Nome == Escolha).FirstOrDefault();
+                int i = mesas.IndexOf(Mesaselecionada);
+
+                mesas[i].AddPedidoAMeesa(ItemSelecionado);
+
+
+
+                Console.WriteLine("gostaria de pedir mais alguma coisa?(S/N)");
+                string n = Console.ReadLine();
+                if (n == "N" || n == "n")
+                {
+                    mesas[i].MudarDispo();
+                    break;
+
+                }
+            }
+
+        }
+        else
+        {
+            Console.WriteLine("Mesa Indisponivel! Escolha outra:");
+
+        }
+       
     }
 
 
 
+
+
+}//funcionando
+void fecharPedido()
+{
+    foreach(Mesa mesa in mesas)
+    {
+        if (!mesa.Status )
+        {
+            Console.WriteLine(mesa);
+        }
+    }
+
+    Console.WriteLine("Escolha a mesa que deseja fechar");
+    int escolha = int.Parse(Console.ReadLine());
+
+    Mesa m = mesas.Where(m => m.NumeroMesa == escolha).FirstOrDefault();
+    Console.WriteLine(m);
+    m.FechandoPedido();
+    Console.WriteLine($"Ficou {m.Total.ToString("c")}");
+    m.MudarDispo();
+    Console.ReadLine();
 
 }
-
 while (true)
 {
+    Console.Clear();
     Console.WriteLine("1-Mesa");
     Console.WriteLine("2-Cardapio");
     Console.WriteLine("3-Criar pedido");
@@ -348,6 +427,7 @@ while (true)
             Pedido();
             break;
         case 4:
+            fecharPedido(); 
             break;
     }
 

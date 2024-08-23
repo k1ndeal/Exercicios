@@ -10,17 +10,33 @@ namespace DesafioPOO {
     internal class Mesa {
 
         public int NumeroMesa { get; private set; }
-        public bool status = true;
+        public bool Status { get; private set; } = false;
         public double TotalDaMesa {  get; set; }
-        /*List<ItemCardapio> pedido = new List<ItemCardapio>();
-        Pedido PedidoDaMesa = new Pedido();*/
-
+        List<ItemCardapio> Pedido = new List<ItemCardapio>();
+        public double Total { get; private set; } = 0;
         public Mesa(int Numero ) {
             NumeroMesa = Numero;
-            status = true;
         }
-        
-      public void AtualizarMesa(int resposta) {
+
+        public Mesa(int numeroMesa, bool status) : this(numeroMesa)
+        {
+           Status = status;
+        }
+
+        public void MudarDispo()
+        {
+            if (Status)
+            {
+                Status = false;
+
+            }
+            else
+            {
+                Status = true;
+            }
+        }
+
+            public void AtualizarMesa(int resposta) {
             NumeroMesa = resposta;
         }
 
@@ -47,10 +63,20 @@ namespace DesafioPOO {
 
         }*/
 
-
+           public void AddPedidoAMeesa(ItemCardapio pedido)
+        {
+            Pedido.Add(pedido);
+        }
+            public void FechandoPedido()
+        {
+            foreach (ItemCardapio item in Pedido)
+            {
+                Total += item.Preco;
+            }
+        }
 
         public override string ToString() {
-            return $"Mesa:{NumeroMesa},Disponibilidade: {status}";
+            return $"Mesa:{NumeroMesa},Disponibilidade: {Status}";
 
         }
 
